@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Icons Explorer | English Interactive Quiz</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-hover: #273549;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --colapinto: #0284c7;
+      --lescano: #16a34a;
+      --styles: #ec4899;
+      --jackson: #eab308;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 12px;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid #334155;
+      border-radius: 16px;
+      margin-bottom: 18px;
+    }
+
+    header h1 {
+      font-size: 1.55rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .nav-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .nav-btn {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid #334155;
+      padding: 12px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn.active {
+      background: var(--accent);
+      color: #0f172a;
+      border-color: var(--accent);
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Profile Selector */
+    .icon-pills {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .pill-btn {
+      background: var(--card);
+      border: 2px solid #334155;
+      color: var(--text);
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+
+    .pill-btn.active[data-id="colapinto"] { border-color: var(--colapinto); background: rgba(2, 132, 199, 0.18); }
+    .pill-btn.active[data-id="lescano"] { border-color: var(--lescano); background: rgba(22, 163, 74, 0.18); }
+    .pill-btn.active[data-id="styles"] { border-color: var(--styles); background: rgba(236, 72, 153, 0.18); }
+    .pill-btn.active[data-id="jackson"] { border-color: var(--jackson); background: rgba(234, 179, 8, 0.18); }
+
+    .bio-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .bio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .bio-header h2 {
+      font-size: 1.3rem;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #334155;
+      white-space: nowrap;
+    }
+
+    .bio-text {
+      font-size: 0.96rem;
+      color: #e2e8f0;
+      margin-bottom: 14px;
+    }
+
+    .highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .facts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #334155;
+    }
+
+    .fact-box {
+      background: #0f172a;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+    }
+
+    .fact-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-bottom: 2px;
+    }
+
+    /* Quiz & Game Cards */
+    .game-card {
+      background: var(--card);
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .question-text {
+      font-size: 1.08rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      line-height: 1.45;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      background: #0f172a;
+      color: var(--text);
+      border: 1px solid #334155;
+      padding: 14px;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      background: #172554;
+    }
+
+    .option-btn.correct {
+      background: rgba(34, 197, 94, 0.2);
+      border-color: var(--success);
+      color: #86efac;
+      font-weight: 600;
+    }
+
+    .option-btn.wrong {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: var(--danger);
+      color: #fca5a5;
+    }
+
+    .feedback-box {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .next-btn, .restart-btn {
+      margin-top: 16px;
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    /* Who Is It Grid */
+    .guess-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .guess-card-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: var(--text);
+      padding: 16px 10px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.15s;
+    }
+
+    .guess-card-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+    }
+
+    .score-summary {
+      text-align: center;
+      padding: 16px 0;
+    }
+
+    .score-summary h3 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 480px) {
+      .facts-grid, .icon-pills, .guess-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🌍 Global Icons Explorer</h1>
+      <p>Read the profiles in English and test your knowledge!</p>
+    </header>
+
+    <div class="nav-tabs">
+      <button class="nav-btn active" onclick="switchTab('profiles', this)">📖 1. Profiles</button>
+      <button class="nav-btn" onclick="switchTab('quiz', this)">❓ 2. Quiz (8)</button>
+      <button class="nav-btn" onclick="switchTab('guess', this)">⚡ 3. Who Is It?</button>
+    </div>
+
+    <!-- SECTION 1: PROFILES -->
+    <div id="profiles" class="section active">
+      <div class="icon-pills">
+        <button class="pill-btn active" data-id="colapinto" onclick="showProfile('colapinto', this)">🏎️ Franco Colapinto</button>
+        <button class="pill-btn" data-id="lescano" onclick="showProfile('lescano', this)">🎹 Pablo Lescano</button>
+        <button class="pill-btn" data-id="styles" onclick="showProfile('styles', this)">🎤 Harry Styles</button>
+        <button class="pill-btn" data-id="jackson" onclick="showProfile('jackson', this)">🕺 Michael Jackson</button>
+      </div>
+      <div id="bio-container" class="bio-card"></div>
+    </div>
+
+    <!-- SECTION 2: MULTIPLE CHOICE QUIZ -->
+    <div id="quiz" class="section">
+      <div class="game-card" id="quiz-container"></div>
+    </div>
+
+    <!-- SECTION 3: WHO IS IT MINI-GAME -->
+    <div id="guess" class="section">
+      <div class="game-card" id="guess-container"></div>
+    </div>
+  </div>
+
+  <script>
+    const profilesData = {
+      colapinto: {
+        name: "Franco Colapinto",
+        badge: "🇦🇷 Formula 1 Driver",
+        text: `Franco Colapinto is an Argentine <span class="highlight">professional</span> racing driver born in Pilar, Buenos Aires, in 2003. He started karting as a child and moved to Europe at age 14 to pursue his <span class="highlight">international</span> motorsport career. In 2024, he made a <span class="highlight">historic</span> debut in Formula 1, becoming the first Argentine driver in the category in 23 years and scoring points in his second race.`,
+        facts: [
+          { label: "Nationality", value: "Argentine (Pilar)" },
+          { label: "Sport", value: "Formula 1 Racing" },
+          { label: "Key Achievement", value: "F1 Debut & Points (2024)" },
+          { label: "Famous Number", value: "#43" }
+        ]
+      },
+      lescano: {
+        name: "Pablo Lescano",
+        badge: "🇦🇷 Musician & Pioneer",
+        text: `Pablo Lescano is an Argentine singer, songwriter, and keyboardist born in San Fernando, Buenos Aires, in 1977. He is widely recognized as the <span class="highlight">creator</span> and main <span class="highlight">exponent</span> of <em>Cumbia Villera</em>. As the leader of the iconic band <strong>Damas Gratis</strong>, his keytar sound and energetic live concerts became a <span class="highlight">cultural</span> phenomenon across Latin America.`,
+        facts: [
+          { label: "Band", value: "Damas Gratis" },
+          { label: "Signature Instrument", value: "Keytar (Portable Keyboard)" },
+          { label: "Music Genre", value: "Cumbia Villera" },
+          { label: "Famous Catchphrase", value: '"ATR" / "Cumbia"' }
+        ]
+      },
+      styles: {
+        name: "Harry Styles",
+        badge: "🇬🇧 Pop Singer & Actor",
+        text: `Harry Styles is a British singer, songwriter, and actor born in Redditch, England, in 1994. He gained <span class="highlight">global</span> fame in 2010 as a member of the boy band <strong>One Direction</strong>. Later, he launched a hugely <span class="highlight">successful</span> solo career with albums like <em>Fine Line</em> and <em>Harry's House</em>, winning multiple Grammy Awards and starring in <span class="highlight">cinema</span> productions.`,
+        facts: [
+          { label: "Nationality", value: "British (England)" },
+          { label: "Former Band", value: "One Direction" },
+          { label: "Hit Songs", value: '"As It Was", "Sign of the Times"' },
+          { label: "Awards", value: "Grammy Album of the Year" }
+        ]
+      },
+      jackson: {
+        name: "Michael Jackson",
+        badge: "🇺🇸 The King of Pop",
+        text: `Michael Jackson (1958–2009) was an American singer, dancer, and songwriter known worldwide as the <strong>"King of Pop"</strong>. He began his <span class="highlight">musical</span> career as a child in <em>The Jackson 5</em>. His 1982 album <em>Thriller</em> remains the best-selling album in <span class="highlight">history</span>, and he revolutionized music videos and dance with iconic moves like the <span class="highlight">Moonwalk</span>.`,
+        facts: [
+          { label: "Title", value: "The King of Pop" },
+          { label: "Best-Selling Album", value: "Thriller (1982)" },
+          { label: "Signature Dance", value: "The Moonwalk" },
+          { label: "First Group", value: "The Jackson 5" }
+        ]
+      }
+    };
+
+    const quizQuestions = [
+      {
+        q: "1. Where was Formula 1 driver Franco Colapinto born?",
+        options: ["Rosario, Santa Fe", "Pilar, Buenos Aires", "Córdoba Capital", "Mar del Plata"],
+        answer: 1,
+        note: "Franco Colapinto was born in Pilar, Buenos Aires Province, in 2003."
+      },
+      {
+        q: "2. What is the name of Pablo Lescano's famous cumbia band?",
+        options: ["Los Palmeras", "Damas Gratis", "Ráfaga", "La Nueva Luna"],
+        answer: 1,
+        note: "Pablo Lescano is the founder, singer, and keytar player of Damas Gratis."
+      },
+      {
+        q: "3. Which band made Harry Styles famous in 2010?",
+        options: ["Coldplay", "The Beatles", "One Direction", "Arctic Monkeys"],
+        answer: 2,
+        note: "Harry Styles started his global career as a member of One Direction."
+      },
+      {
+        q: "4. Which Michael Jackson album is the best-selling album of all time?",
+        options: ["Bad", "Dangerous", "Thriller", "Off the Wall"],
+        answer: 2,
+        note: "Released in 1982, Thriller is the best-selling album in music history."
+      },
+      {
+        q: "5. How old was Franco Colapinto when he moved to Europe to race?",
+        options: ["10 years old", "14 years old", "18 years old", "21 years old"],
+        answer: 1,
+        note: "He moved to Europe at age 14 to compete in international racing categories."
+      },
+      {
+        q: "6. Which instrument is Pablo Lescano famous for playing on stage?",
+        options: ["Electric Guitar", "Saxophone", "Keytar", "Drums"],
+        answer: 2,
+        note: "His portable keyboard (keytar) is his trademark on stage."
+      },
+      {
+        q: "7. Which of these hit songs belongs to Harry Styles?",
+        options: ["Billie Jean", "Sign of the Times", "Laura No Está", "Bohemian Rhapsody"],
+        answer: 1,
+        note: "'Sign of the Times' was Harry Styles's debut solo single in 2017."
+      },
+      {
+        q: "8. What is the name of Michael Jackson's iconic backward dance move?",
+        options: ["The Twist", "The Moonwalk", "The Robot", "The Tango"],
+        answer: 1,
+        note: "Michael Jackson popularized the Moonwalk in 1983."
+      }
+    ];
+
+    const guessClues = [
+      { clue: "I became the first Argentine Formula 1 driver in 23 years.", answer: "Franco Colapinto" },
+      { clue: "I play the keytar and lead the band Damas Gratis.", answer: "Pablo Lescano" },
+      { clue: "I am known worldwide as the 'King of Pop' and created Thriller.", answer: "Michael Jackson" },
+      { clue: "I was in One Direction and sang 'As It Was' and 'Sign of the Times'.", answer: "Harry Styles" },
+      { clue: "I started my music career as a child in The Jackson 5.", answer: "Michael Jackson" },
+      { clue: "I am from Pilar, Buenos Aires, and raced with car number #43.", answer: "Franco Colapinto" }
+    ];
+
+    // Tab Navigation
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // Profiles Logic
+    function showProfile(id, btn) {
+      document.querySelectorAll('.pill-btn').forEach(p => p.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const data = profilesData[id];
+      document.getElementById('bio-container').innerHTML = `
+        <div class="bio-header">
+          <h2>${data.name}</h2>
+          <span class="badge">${data.badge}</span>
+        </div>
+        <p class="bio-text">${data.text}</p>
+        <div class="facts-grid">
+          ${data.facts.map(f => `
+            <div class="fact-box">
+              <span>${f.label}</span>
+              <strong>${f.value}</strong>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // Quiz Logic
+    let currentQ = 0;
+    let quizScore = 0;
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      if (currentQ >= quizQuestions.length) {
+        const medal = quizScore >= 7 ? "🏆 Gold Medal!" : quizScore >= 5 ? "🥈 Silver Medal!" : "🥉 Keep Practicing!";
+        container.innerHTML = `
+          <div class="score-summary">
+            <h3>${medal}</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 10px;">You scored <strong>${quizScore} / ${quizQuestions.length}</strong></p>
+            <p style="color: var(--muted); font-size: 0.9rem;">Show this screen at the English stand!</p>
+            <button class="restart-btn" onclick="restartQuiz()">🔄 Play Again</button>
+          </div>
+        `;
+        return;
+      }
+
+      const item = quizQuestions[currentQ];
+      container.innerHTML = `
+        <div class="progress-bar">
+          <span>Question ${currentQ + 1} of ${quizQuestions.length}</span>
+          <span>Score: ${quizScore}</span>
+        </div>
+        <div class="question-text">${item.q}</div>
+        <div class="options-list">
+          ${item.options.map((opt, idx) => `
+            <button class="option-btn" onclick="checkQuizAnswer(${idx}, this)">${opt}</button>
+          `).join('')}
+        </div>
+        <div id="quiz-feedback" class="feedback-box"></div>
+        <button id="quiz-next" class="next-btn" style="display:none;" onclick="nextQuestion()">Next Question ➡️</button>
+      `;
+    }
+
+    function checkQuizAnswer(selected, btn) {
+      const item = quizQuestions[currentQ];
+      const buttons = document.querySelectorAll('#quiz-container .option-btn');
+      buttons.forEach(b => b.disabled = true);
+
+      const fb = document.getElementById('quiz-feedback');
+      fb.style.display = 'block';
+
+      if (selected === item.answer) {
+        btn.classList.add('correct');
+        quizScore++;
+        fb.style.background = 'rgba(34, 197, 94, 0.15)';
+        fb.style.color = '#86efac';
+        fb.innerHTML = `✅ <strong>Correct!</strong> ${item.note}`;
+      } else {
+        btn.classList.add('wrong');
+        buttons[item.answer].classList.add('correct');
+        fb.style.background = 'rgba(239, 68, 68, 0.15)';
+        fb.style.color = '#fca5a5';
+        fb.innerHTML = `❌ <strong>Not quite.</strong> ${item.note}`;
+      }
+      document.getElementById('quiz-next').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQ++;
+      renderQuiz();
+    }
+
+    function restartQuiz() {
+      currentQ = 0;
+      quizScore = 0;
+      renderQuiz();
+    }
+
+    // Who Is It Mini-Game Logic
+    let guessIdx = 0;
+    let guessScore = 0;
+    const allNames = ["Franco Colapinto", "Pablo Lescano", "Harry Styles", "Michael Jackson"];
+
+    function renderGuess() {
+      const container = document.getElementById('guess-container');
+      if (guessIdx >= guessClues.length) {
+        container.innerHTML = `
+          <div class="score-summary">
+            <h3>⚡ Challenge Complete!</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 10px;">Your score: <strong>${guessScore} / ${guessClues.length}</strong></p>
+            <button class="restart-btn" onclick="restartGuess()">🔄 Play Again</button>
+          </div>
+        `;
+        return;
+      }
+
+      const item = guessClues[guessIdx];
+      container.innerHTML = `
+        <div class="progress-bar">
+          <span>Clue ${guessIdx + 1} of ${guessClues.length}</span>
+          <span>Points: ${guessScore}</span>
+        </div>
+        <div class="question-text">"${item.clue}"</div>
+        <p style="color: var(--muted); font-size: 0.85rem;">Tap the right person:</p>
+        <div class="guess-grid">
+          ${allNames.map(name => `
+            <button class="guess-card-btn" onclick="checkGuess('${name}', this)">${name}</button>
+          `).join('')}
+        </div>
+        <div id="guess-feedback" class="feedback-box"></div>
+        <button id="guess-next" class="next-btn" style="display:none;" onclick="nextGuess()">Next Clue ➡️</button>
+      `;
+    }
+
+    function checkGuess(chosen, btn) {
+      const correct = guessClues[guessIdx].answer;
+      const buttons = document.querySelectorAll('.guess-card-btn');
+      buttons.forEach(b => b.disabled = true);
+
+      const fb = document.getElementById('guess-feedback');
+      fb.style.display = 'block';
+
+      if (chosen === correct) {
+        btn.style.borderColor = 'var(--success)';
+        btn.style.background = 'rgba(34, 197, 94, 0.2)';
+        guessScore++;
+        fb.style.background = 'rgba(34, 197, 94, 0.15)';
+        fb.style.color = '#86efac';
+        fb.textContent = `✅ Spot on! It is ${correct}.`;
+      } else {
+        btn.style.borderColor = 'var(--danger)';
+        btn.style.background = 'rgba(239, 68, 68, 0.2)';
+        fb.style.background = 'rgba(239, 68, 68, 0.15)';
+        fb.style.color = '#fca5a5';
+        fb.textContent = `❌ Oops! The right answer was ${correct}.`;
+      }
+      document.getElementById('guess-next').style.display = 'block';
+    }
+
+    function nextGuess() {
+      guessIdx++;
+      renderGuess();
+    }
+
+    function restartGuess() {
+      guessIdx = 0;
+      guessScore = 0;
+      renderGuess();
+    }
+
+    // Initialize
+    showProfile('colapinto');
+    renderQuiz();
+    renderGuess();
+  </script>
+</body>
+</html>

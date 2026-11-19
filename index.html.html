@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FIFA World Cup 2026 — Group J Cultural Explorer & Quiz</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            pitch: {
+              900: '#071318',
+              800: '#0d212a',
+              700: '#133240',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Custom subtle animations and glassmorphism helpers */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-card {
+      animation: fadeSlideUp 0.35s ease-out forwards;
+    }
+    /* Hide scrollbar for horizontal pill nav on small mobile screens */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-400 selection:text-slate-950">
+
+  <!-- Top Stadium-Inspired Hero Header -->
+  <header class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-pitch-800 to-slate-950 border-b border-slate-800/80">
+    <!-- Subtle Decorative Background Glows -->
+    <div class="pointer-events-none absolute -top-24 -left-24 w-72 h-72 rounded-full bg-sky-500/10 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-24 -right-24 w-72 h-72 rounded-full bg-emerald-500/10 blur-3xl"></div>
+
+    <div class="max-w-4xl mx-auto px-4 pt-6 pb-5 sm:px-6 sm:pt-8 sm:pb-6 relative z-10">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase bg-amber-400/15 text-amber-300 border border-amber-400/30">
+          <!-- Trophy SVG Icon -->
+          <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/>
+          </svg>
+          English Exhibition • QR Interactive
+        </span>
+
+        <!-- Live Score & Status Pill -->
+        <div class="flex items-center gap-2">
+          <span id="header-score-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-800/90 text-slate-200 border border-slate-700">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Quiz Score: <span id="header-score-val" class="text-amber-400">0/8</span>
+          </span>
+          <button onclick="openQrModal()" aria-label="Share or QR Info" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+        FIFA World Cup 2026 — <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-emerald-300 to-amber-300">Group J Explorer</span>
+      </h1>
+      <p class="mt-1.5 text-sm sm:text-base text-slate-300 max-w-2xl">
+        Cultural Identities, Languages &amp; Interactive Challenge featuring <strong class="text-white font-semibold">Argentina, Algeria, Austria, and Jordan</strong>.
+      </p>
+
+      <!-- Main Mode Switcher (Sticky-friendly Tabs) -->
+      <div class="mt-5 grid grid-cols-2 gap-2 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 max-w-md">
+        <button id="tab-explore" onclick="switchMode('explore')" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold transition-all bg-sky-500 text-slate-950 shadow-lg shadow-sky-500/20">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          1. Explore Countries
+        </button>
+        <button id="tab-quiz" onclick="switchMode('quiz')" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold transition-all text-slate-300 hover:text-white hover:bg-slate-800/70">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          2. Take the Quiz
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-6 sm:px-6 sm:py-8">
+
+    <!-- ========================================================= -->
+    <!-- MODE 1: EXPLORE COUNTRIES                                 -->
+    <!-- ========================================================= -->
+    <section id="section-explore" class="space-y-6">
+      
+      <!-- Country Filter Pills -->
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+        <button onclick="filterCountry('all')" data-filter="all" class="country-filter-btn shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-950 shadow transition">
+          All 4 Nations
+        </button>
+        <button onclick="filterCountry('argentina')" data-filter="argentina" class="country-filter-btn shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-slate-300 border border-slate-800 hover:border-sky-400/50 transition">
+          🇦🇷 Argentina
+        </button>
+        <button onclick="filterCountry('algeria')" data-filter="algeria" class="country-filter-btn shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-slate-300 border border-slate-800 hover:border-emerald-400/50 transition">
+          🇩🇿 Algeria
+        </button>
+        <button onclick="filterCountry('austria')" data-filter="austria" class="country-filter-btn shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-slate-300 border border-slate-800 hover:border-rose-400/50 transition">
+          🇦🇹 Austria
+        </button>
+        <button onclick="filterCountry('jordan')" data-filter="jordan" class="country-filter-btn shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-slate-300 border border-slate-800 hover:border-amber-400/50 transition">
+          🇯🇴 Jordan
+        </button>
+      </div>
+
+      <!-- Country Cards Grid -->
+      <div id="countries-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Cards injected dynamically by JS for clean data management -->
+      </div>
+
+      <!-- Group J Standings & Match Results Summary Card -->
+      <div class="rounded-3xl bg-slate-900/90 border border-slate-800 p-5 sm:p-6 shadow-xl">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Tournament Context</span>
+            <h2 class="text-lg sm:text-xl font-bold text-white">Group J Final Standings &amp; Key Matches</h2>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+            Top 3 Qualified
+          </span>
+        </div>
+
+        <!-- Standings Table -->
+        <div class="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-950/60">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-slate-800 text-xs uppercase text-slate-400">
+                <th class="py-3 px-4">Pos</th>
+                <th class="py-3 px-4">Nation</th>
+                <th class="py-3 px-3 text-center">P</th>
+                <th class="py-3 px-3 text-center">W-D-L</th>
+                <th class="py-3 px-4 text-right">Pts</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/70">
+              <tr class="bg-sky-500/5">
+                <td class="py-3 px-4 font-bold text-sky-400">1</td>
+                <td class="py-3 px-4 font-semibold text-white">🇦🇷 Argentina</td>
+                <td class="py-3 px-3 text-center text-slate-300">3</td>
+                <td class="py-3 px-3 text-center text-slate-300">3-0-0</td>
+                <td class="py-3 px-4 text-right font-extrabold text-amber-400">9</td>
+              </tr>
+              <tr class="bg-rose-500/5">
+                <td class="py-3 px-4 font-bold text-rose-400">2</td>
+                <td class="py-3 px-4 font-semibold text-white">🇦🇹 Austria</td>
+                <td class="py-3 px-3 text-center text-slate-300">3</td>
+                <td class="py-3 px-3 text-center text-slate-300">1-1-1</td>
+                <td class="py-3 px-4 text-right font-extrabold text-white">4</td>
+              </tr>
+              <tr class="bg-emerald-500/5">
+                <td class="py-3 px-4 font-bold text-emerald-400">3</td>
+                <td class="py-3 px-4 font-semibold text-white">🇩🇿 Algeria</td>
+                <td class="py-3 px-3 text-center text-slate-300">3</td>
+                <td class="py-3 px-3 text-center text-slate-300">1-1-1</td>
+                <td class="py-3 px-4 text-right font-extrabold text-white">4</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-slate-500">4</td>
+                <td class="py-3 px-4 font-semibold text-slate-300">🇯🇴 Jordan</td>
+                <td class="py-3 px-3 text-center text-slate-400">3</td>
+                <td class="py-3 px-3 text-center text-slate-400">0-0-3</td>
+                <td class="py-3 px-4 text-right font-bold text-slate-400">0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Key Match Highlights Pills -->
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-slate-300">
+          <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-center justify-between">
+            <span>🇦🇷 Argentina <strong>3 - 0</strong> Algeria 🇩🇿</span>
+            <span class="text-slate-500">Matchday 1</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-center justify-between">
+            <span>🇦🇷 Argentina <strong>2 - 0</strong> Austria 🇦🇹</span>
+            <span class="text-slate-500">Matchday 2</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-center justify-between">
+            <span>🇦🇹 Austria <strong>3 - 3</strong> Algeria 🇩🇿</span>
+            <span class="text-amber-400/90 font-medium">Thrilling Draw</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-center justify-between">
+            <span>🇯🇴 Jordan <strong>1 - 3</strong> Argentina 🇦🇷</span>
+            <span class="text-slate-500">Matchday 3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call-to-Action Banner to Jump to Quiz -->
+      <div class="rounded-3xl bg-gradient-to-r from-sky-500/20 via-emerald-500/20 to-amber-500/20 border border-sky-400/30 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div>
+          <h3 class="text-lg font-bold text-white">Ready to test your Group J knowledge?</h3>
+          <p class="text-sm text-slate-300 mt-0.5">Answer 8 quick cultural &amp; geography questions in English to earn your Explorer Badge!</p>
+        </div>
+        <button onclick="switchMode('quiz')" class="w-full sm:w-auto shrink-0 px-6 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-sm shadow-lg shadow-amber-400/20 transition transform active:scale-95">
+          Start the Quiz &rarr;
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- MODE 2: INTERACTIVE MULTIPLE CHOICE QUIZ                  -->
+    <!-- ========================================================= -->
+    <section id="section-quiz" class="hidden">
+      
+      <!-- Quiz Active Card -->
+      <div id="quiz-active-container" class="rounded-3xl bg-slate-900 border border-slate-800 p-5 sm:p-8 shadow-2xl">
+        
+        <!-- Progress Header -->
+        <div class="flex items-center justify-between gap-4 mb-3">
+          <span id="quiz-counter" class="text-xs sm:text-sm font-bold uppercase tracking-wider text-sky-400">
+            Question 1 of 8
+          </span>
+          <span id="quiz-topic-tag" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+            World Cup History
+          </span>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full h-2.5 rounded-full bg-slate-800 overflow-hidden mb-6">
+          <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-sky-400 to-emerald-400 rounded-full transition-all duration-300" style="width: 12.5%;"></div>
+        </div>
+
+        <!-- Question Text -->
+        <h2 id="quiz-question-text" class="text-xl sm:text-2xl font-bold text-white leading-snug mb-6">
+          Loading question...
+        </h2>
+
+        <!-- Options List -->
+        <div id="quiz-options-list" class="space-y-3">
+          <!-- Options injected dynamically -->
+        </div>
+
+        <!-- Instant Feedback Box -->
+        <div id="quiz-feedback-box" class="hidden mt-6 p-4 rounded-2xl border text-sm leading-relaxed">
+          <div class="flex items-start gap-3">
+            <div id="quiz-feedback-icon" class="mt-0.5 shrink-0"></div>
+            <div>
+              <p id="quiz-feedback-title" class="font-bold text-base"></p>
+              <p id="quiz-feedback-explanation" class="mt-1 text-slate-200"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="mt-6 pt-5 border-t border-slate-800/80 flex items-center justify-between gap-3">
+          <button onclick="switchMode('explore')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition">
+            &larr; Review Country Cards
+          </button>
+
+          <button id="quiz-next-btn" onclick="nextQuestion()" disabled class="px-6 py-3 rounded-2xl text-sm font-extrabold bg-slate-800 text-slate-500 cursor-not-allowed transition">
+            Next Question &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Quiz Final Results Screen -->
+      <div id="quiz-results-container" class="hidden rounded-3xl bg-slate-900 border border-slate-800 p-6 sm:p-10 shadow-2xl text-center animate-card">
+        <div id="result-badge-icon" class="w-20 h-20 mx-auto rounded-3xl flex items-center justify-center text-4xl mb-4 shadow-lg">
+          🏆
+        </div>
+
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-400/15 text-amber-300 border border-amber-400/30 mb-2">
+          Challenge Completed
+        </span>
+
+        <h2 id="result-rank-title" class="text-2xl sm:text-3xl font-extrabold text-white">
+          World Cup Champion!
+        </h2>
+
+        <p id="result-score-display" class="mt-2 text-lg sm:text-xl font-bold text-sky-400">
+          You scored 8 out of 8 (100%)
+        </p>
+
+        <p id="result-message" class="mt-3 text-sm sm:text-base text-slate-300 max-w-lg mx-auto leading-relaxed">
+          Outstanding cultural knowledge across South America, North Africa, Central Europe, and the Middle East!
+        </p>
+
+        <!-- Answer Review Summary -->
+        <div id="result-review-list" class="mt-7 text-left space-y-2.5 max-w-xl mx-auto">
+          <!-- Recap pills injected here -->
+        </div>
+
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <button onclick="resetQuiz()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-sm shadow-lg shadow-amber-400/20 transition">
+            Play Again
+          </button>
+          <button onclick="switchMode('explore')" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 transition">
+            Explore Country Profiles
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-900 py-5 px-4 text-center text-xs text-slate-500">
+    <p>FIFA World Cup 2026 • Group J Cultural Identities Exhibition (English Department)</p>
+    <p class="mt-1">Argentina 🇦🇷 • Algeria 🇩🇿 • Austria 🇦🇹 • Jordan 🇯🇴</p>
+  </footer>
+
+  <!-- QR / Teacher Share Info Modal -->
+  <div id="qr-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 shadow-2xl animate-card">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-lg font-bold text-white">Exhibition QR &amp; Mobile Info</h3>
+        <button onclick="closeQrModal()" class="p-1.5 rounded-xl bg-slate-800 text-slate-400 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <p class="text-sm text-slate-300 leading-relaxed">
+        This interactive web app is optimized for smartphones scanned via QR code during your school exhibition. Visitors can read the cultural cards in English and take the 8-question self-grading quiz with instant feedback.
+      </p>
+      <div class="mt-4 p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-slate-400 space-y-1.5">
+        <p class="text-slate-200 font-semibold">Quick Hosting Tip:</p>
+        <p>1. Save this file as <code class="text-sky-400">index.html</code>.</p>
+        <p>2. Drag &amp; drop it onto <strong>Netlify Drop</strong> or <strong>GitHub Pages</strong> to get a free public link.</p>
+        <p>3. Right-click the link in Chrome/Edge and select <strong>"Create QR code for this page"</strong>.</p>
+      </div>
+      <div class="mt-5 flex justify-end gap-2">
+        <button onclick="copyCurrentUrl()" id="copy-url-btn" class="px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition">
+          Copy Page Link
+        </button>
+        <button onclick="closeQrModal()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Data & Interactive Logic -->
+  <script>
+    // =========================================================
+    // 1. CULTURAL PROFILES DATA (GROUP J NATIONS)
+    // =========================================================
+    const countriesData = [
+      {
+        id: 'argentina',
+        name: 'Argentina',
+        flag: '🇦🇷',
+        region: 'South America',
+        capital: 'Buenos Aires',
+        languages: 'Spanish (Rioplatense accent & lunfardo slang)',
+        accentBorder: 'border-sky-500/40',
+        accentBadge: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
+        accentBar: 'from-sky-400 via-white to-sky-400',
+        culturalIdentity:
+          'Famous worldwide for tango music and dance, mate sharing culture, universal literature (such as Jorge Luis Borges), and deeply passionate football traditions.',
+        worldCupNote:
+          'Entered as defending champions and topped Group J with 3 consecutive wins (3-0 vs. Algeria, 2-0 vs. Austria, and 3-1 vs. Jordan).',
+        quickFact: 'Home to the widest avenue in the world (Av. 9 de Julio) and vibrant street murals.'
+      },
+      {
+        id: 'algeria',
+        name: 'Algeria',
+        flag: '🇩🇿',
+        region: 'North Africa',
+        capital: 'Algiers',
+        languages: 'Arabic & Tamazight (Berber) official; French widely spoken',
+        accentBorder: 'border-emerald-500/40',
+        accentBadge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+        accentBar: 'from-emerald-500 via-white to-rose-500',
+        culturalIdentity:
+          'The largest country in Africa by total land area, bridging the Mediterranean coast and the Sahara Desert. Renowned for Raï music and rich Amazigh heritage.',
+        worldCupNote:
+          'Returned to the World Cup after a 12-year absence and advanced from Group J alongside Argentina and Austria.',
+        quickFact: 'Over 80% of Algeria’s territory lies within the Sahara Desert.'
+      },
+      {
+        id: 'austria',
+        name: 'Austria',
+        flag: '🇦🇹',
+        region: 'Central Europe',
+        capital: 'Vienna',
+        languages: 'German (Austrian German)',
+        accentBorder: 'border-rose-500/40',
+        accentBadge: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+        accentBar: 'from-rose-500 via-white to-rose-500',
+        culturalIdentity:
+          'A landlocked Alpine nation world-renowned for its classical music legacy (Mozart, Beethoven, Strauss), imperial palaces, and UNESCO-listed Viennese coffeehouse culture.',
+        worldCupNote:
+          'Qualified for its first World Cup since 1998, advancing from Group J after a thrilling 3-3 draw against Algeria.',
+        quickFact: 'Vienna has repeatedly been ranked among the world’s most livable cities.'
+      },
+      {
+        id: 'jordan',
+        name: 'Jordan',
+        flag: '🇯🇴',
+        region: 'Middle East / Western Asia',
+        capital: 'Amman',
+        languages: 'Arabic (English widely used in business & tourism)',
+        accentBorder: 'border-amber-500/40',
+        accentBadge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+        accentBar: 'from-slate-900 via-white to-emerald-600',
+        culturalIdentity:
+          'Home to Petra—one of the New Seven Wonders of the World, an ancient city carved into rose-red sandstone cliffs—and the Dead Sea, the lowest land point on Earth.',
+        worldCupNote:
+          'Made its historic first-ever FIFA World Cup appearance in 2026, competing proudly on the global stage.',
+        quickFact: 'The Dead Sea shore sits more than 430 meters below sea level.'
+      }
+    ];
+
+    // =========================================================
+    // 2. MULTIPLE CHOICE QUIZ DATA (8 QUESTIONS)
+    // =========================================================
+    const quizQuestions = [
+      {
+        topic: 'World Cup History',
+        question: 'Which of these Group J countries made its historic debut in a FIFA World Cup in 2026?',
+        options: ['Austria', 'Algeria', 'Jordan', 'Argentina'],
+        correctIndex: 2,
+        explanation: 'Jordan qualified for its first-ever FIFA World Cup in 2026, marking a historic milestone for Jordanian football.'
+      },
+      {
+        topic: 'Culture & Cities',
+        question: 'Which city is famous for its classical music tradition and historic coffeehouse culture?',
+        options: ['Algiers', 'Vienna', 'Amman', 'Buenos Aires'],
+        correctIndex: 1,
+        explanation: 'Vienna, the capital of Austria, is world-famous for composers like Mozart and Strauss as well as its traditional coffeehouses.'
+      },
+      {
+        topic: 'World Geography',
+        question: 'What is the largest country in Africa by total area?',
+        options: ['Algeria', 'Jordan', 'Egypt', 'Morocco'],
+        correctIndex: 0,
+        explanation: 'Algeria is the largest country in Africa and the 10th largest in the world, stretching from the Mediterranean to the Sahara.'
+      },
+      {
+        topic: 'World Heritage',
+        question: 'Which ancient archaeological wonder is located in Jordan?',
+        options: ['Machu Picchu', 'The Colosseum', 'Petra', 'Chichén Itzá'],
+        correctIndex: 2,
+        explanation: 'Petra, carved directly into rose-red sandstone cliffs in southern Jordan, is one of the New Seven Wonders of the World.'
+      },
+      {
+        topic: 'Languages',
+        question: 'Besides Arabic, what is the other official language of Algeria?',
+        options: ['German', 'Spanish', 'Tamazight (Berber)', 'Portuguese'],
+        correctIndex: 2,
+        explanation: 'Both Arabic and Tamazight (Berber) are official languages of Algeria, reflecting its rich North African and Amazigh roots.'
+      },
+      {
+        topic: 'Languages',
+        question: 'What is the official language of Austria?',
+        options: ['Austrian', 'German', 'French', 'Dutch'],
+        correctIndex: 1,
+        explanation: 'German is the official language of Austria, spoken with distinctive Austrian vocabulary and regional accents.'
+      },
+      {
+        topic: 'Physical Geography',
+        question: "Which geographical feature lies on Jordan's western border and is the lowest land elevation on Earth?",
+        options: ['The Red Sea', 'The Sahara Desert', 'The Dead Sea', 'The Danube River'],
+        correctIndex: 2,
+        explanation: 'The Dead Sea borders Jordan to the west and its shores are the lowest land elevation on Earth.'
+      },
+      {
+        topic: 'Music & Identity',
+        question: 'Which traditional music genre originated in Algeria and blends folk with modern instruments?',
+        options: ['Tango', 'Waltz', 'Raï', 'Flamenco'],
+        correctIndex: 2,
+        explanation: 'Raï originated in Oran, Algeria, blending traditional Bedouin folk music with modern electric and global rhythms.'
+      }
+    ];
+
+    // =========================================================
+    // 3. STATE MANAGEMENT
+    // =========================================================
+    let currentFilter = 'all';
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(quizQuestions.length).fill(null);
+    let score = 0;
+
+    // =========================================================
+    // 4. RENDER COUNTRY CARDS
+    // =========================================================
+    function renderCountries(filter = 'all') {
+      const grid = document.getElementById('countries-grid');
+      const filtered = filter === 'all'
+        ? countriesData
+        : countriesData.filter(c => c.id === filter);
+
+      grid.innerHTML = filtered.map(country => `
+        <article class="animate-card rounded-3xl bg-slate-900/95 border ${country.accentBorder} overflow-hidden shadow-xl flex flex-col justify-between">
+          <!-- Flag Color Accent Strip -->
+          <div class="h-1.5 w-full bg-gradient-to-r ${country.accentBar}"></div>
+          
+          <div class="p-5 sm:p-6 space-y-4">
+            <!-- Header Row -->
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-4xl sm:text-5xl leading-none select-none" role="img" aria-label="${country.name} flag">${country.flag}</span>
+                <div>
+                  <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">${country.name}</h2>
+                  <p class="text-xs font-medium text-slate-400">${country.region}</p>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full text-xs font-bold border ${country.accentBadge}">
+                Group J
+              </span>
+            </div>
+
+            <!-- Key Facts Grid -->
+            <div class="grid grid-cols-1 gap-2.5 p-3.5 rounded-2xl bg-slate-950/75 border border-slate-800/80 text-xs sm:text-sm">
+              <div>
+                <span class="text-slate-400 font-semibold">Capital:</span>
+                <span class="text-white font-bold ml-1">${country.capital}</span>
+              </div>
+              <div>
+                <span class="text-slate-400 font-semibold">Languages:</span>
+                <span class="text-slate-200 ml-1">${country.languages}</span>
+              </div>
+            </div>
+
+            <!-- Cultural Identity -->
+            <div>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Cultural Identity</h3>
+              <p class="text-sm text-slate-200 leading-relaxed">${country.culturalIdentity}</p>
+            </div>
+
+            <!-- World Cup 2026 Note -->
+            <div class="p-3.5 rounded-2xl bg-slate-800/50 border border-slate-700/60">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">World Cup 2026</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${country.worldCupNote}</p>
+            </div>
+          </div>
+
+          <!-- Footer Fun Fact -->
+          <div class="px-5 py-3 bg-slate-950/60 border-t border-slate-800/70 text-xs text-slate-400 flex items-center gap-2">
+            <span class="text-amber-400 font-bold">Did you know?</span>
+            <span>${country.quickFact}</span>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function filterCountry(filterId) {
+      currentFilter = filterId;
+      document.querySelectorAll('.country-filter-btn').forEach(btn => {
+        const isActive = btn.getAttribute('data-filter') === filterId;
+        if (isActive) {
+          btn.className = 'country-filter-btn shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-950 shadow transition';
+        } else {
+          btn.className = 'country-filter-btn shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-600 transition';
+        }
+      });
+      renderCountries(filterId);
+    }
+
+    // =========================================================
+    // 5. NAVIGATION BETWEEN EXPLORE & QUIZ MODES
+    // =========================================================
+    function switchMode(mode) {
+      const exploreSection = document.getElementById('section-explore');
+      const quizSection = document.getElementById('section-quiz');
+      const tabExplore = document.getElementById('tab-explore');
+      const tabQuiz = document.getElementById('tab-quiz');
+
+      if (mode === 'explore') {
+        exploreSection.classList.remove('hidden');
+        quizSection.classList.add('hidden');
+        tabExplore.className = 'flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold transition-all bg-sky-500 text-slate-950 shadow-lg shadow-sky-500/20';
+        tabQuiz.className = 'flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold transition-all text-slate-300 hover:text-white hover:bg-slate-800/70';
+      } else {
+        exploreSection.classList.add('hidden');
+        quizSection.classList.remove('hidden');
+        tabQuiz.className = 'flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold transition-all bg-amber-400 text-slate-950 shadow-lg shadow-amber-400/20';
+        tabExplore.className = 'flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold transition-all text-slate-300 hover:text-white hover:bg-slate-800/70';
+        renderQuestion();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // =========================================================
+    // 6. QUIZ ENGINE
+    // =========================================================
+    function renderQuestion() {
+      const q = quizQuestions[currentQuestionIndex];
+      const total = quizQuestions.length;
+      const alreadyAnswered = userAnswers[currentQuestionIndex] !== null;
+
+      document.getElementById('quiz-counter').textContent = `Question ${currentQuestionIndex + 1} of ${total}`;
+      document.getElementById('quiz-topic-tag').textContent = q.topic;
+      document.getElementById('quiz-progress-bar').style.width = `${((currentQuestionIndex + 1) / total) * 100}%`;
+      document.getElementById('quiz-question-text').textContent = q.question;
+
+      const letters = ['A', 'B', 'C', 'D'];
+      const optionsContainer = document.getElementById('quiz-options-list');
+
+      optionsContainer.innerHTML = q.options.map((optionText, idx) => {
+        let btnClasses = 'w-full text-left p-4 rounded-2xl border transition-all flex items-center justify-between gap-3 font-medium text-sm sm:text-base ';
+        let badgeClasses = 'w-8 h-8 rounded-xl flex items-center justify-center text-xs font-extrabold shrink-0 ';
+        let statusIcon = '';
+
+        if (!alreadyAnswered) {
+          btnClasses += 'bg-slate-950/70 border-slate-800 hover:border-sky-400 hover:bg-slate-800/80 text-slate-100 cursor-pointer active:scale-[0.99]';
+          badgeClasses += 'bg-slate-800 text-slate-300';
+        } else {
+          const chosenIdx = userAnswers[currentQuestionIndex];
+          if (idx === q.correctIndex) {
+            btnClasses += 'bg-emerald-500/15 border-emerald-400 text-white';
+            badgeClasses += 'bg-emerald-400 text-slate-950';
+            statusIcon = '<span class="text-emerald-400 font-bold text-sm">✓ Correct</span>';
+          } else if (idx === chosenIdx) {
+            btnClasses += 'bg-rose-500/15 border-rose-400 text-rose-100';
+            badgeClasses += 'bg-rose-400 text-slate-950';
+            statusIcon = '<span class="text-rose-400 font-bold text-sm">✗ Your choice</span>';
+          } else {
+            btnClasses += 'bg-slate-950/40 border-slate-800/60 text-slate-500 opacity-70';
+            badgeClasses += 'bg-slate-900 text-slate-600';
+          }
+        }
+
+        return `
+          <button
+            onclick="selectOption(${idx})"
+            ${alreadyAnswered ? 'disabled' : ''}
+            class="${btnClasses}"
+          >
+            <div class="flex items-center gap-3.5">
+              <span class="${badgeClasses}">${letters[idx]}</span>
+              <span>${optionText}</span>
+            </div>
+            ${statusIcon}
+          </button>
+        `;
+      }).join('');
+
+      // Feedback & Next Button state
+      const feedbackBox = document.getElementById('quiz-feedback-box');
+      const nextBtn = document.getElementById('quiz-next-btn');
+
+      if (alreadyAnswered) {
+        const isCorrect = userAnswers[currentQuestionIndex] === q.correctIndex;
+        feedbackBox.classList.remove('hidden');
+        feedbackBox.className = isCorrect
+          ? 'mt-6 p-4 rounded-2xl border bg-emerald-500/10 border-emerald-500/40 text-sm leading-relaxed animate-card'
+          : 'mt-6 p-4 rounded-2xl border bg-rose-500/10 border-rose-500/40 text-sm leading-relaxed animate-card';
+
+        document.getElementById('quiz-feedback-icon').innerHTML = isCorrect
+          ? '<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-400 text-slate-950 font-bold">✓</span>'
+          : '<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-rose-400 text-slate-950 font-bold">!</span>';
+
+        document.getElementById('quiz-feedback-title').textContent = isCorrect ? 'Great job!' : 'Not quite!';
+        document.getElementById('quiz-feedback-title').className = isCorrect ? 'font-bold text-base text-emerald-300' : 'font-bold text-base text-rose-300';
+        document.getElementById('quiz-feedback-explanation').textContent = q.explanation;
+
+        nextBtn.disabled = false;
+        nextBtn.textContent = currentQuestionIndex === total - 1 ? 'See Final Results 🏆' : 'Next Question →';
+        nextBtn.className = 'px-6 py-3 rounded-2xl text-sm font-extrabold bg-sky-500 hover:bg-sky-400 text-slate-950 shadow-lg shadow-sky-500/20 cursor-pointer transition';
+      } else {
+        feedbackBox.classList.add('hidden');
+        nextBtn.disabled = true;
+        nextBtn.textContent = currentQuestionIndex === total - 1 ? 'See Final Results' : 'Next Question →';
+        nextBtn.className = 'px-6 py-3 rounded-2xl text-sm font-extrabold bg-slate-800 text-slate-500 cursor-not-allowed transition';
+      }
+    }
+
+    function selectOption(optionIdx) {
+      if (userAnswers[currentQuestionIndex] !== null) return;
+
+      userAnswers[currentQuestionIndex] = optionIdx;
+      if (optionIdx === quizQuestions[currentQuestionIndex].correctIndex) {
+        score++;
+      }
+      updateHeaderScore();
+      renderQuestion();
+    }
+
+    function nextQuestion() {
+      if (currentQuestionIndex < quizQuestions.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+      } else {
+        showFinalResults();
+      }
+    }
+
+    function updateHeaderScore() {
+      document.getElementById('header-score-val').textContent = `${score}/${quizQuestions.length}`;
+    }
+
+    function showFinalResults() {
+      document.getElementById('quiz-active-container').classList.add('hidden');
+      const resultsContainer = document.getElementById('quiz-results-container');
+      resultsContainer.classList.remove('hidden');
+
+      const total = quizQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      let badgeEmoji = '⚽';
+      let badgeBg = 'bg-sky-500/20 border border-sky-400/40';
+      let rankTitle = 'Rookie Explorer';
+      let message = 'Good effort! Check out the Group J Country Cards to discover more cultural facts and try again.';
+
+      if (score >= 7) {
+        badgeEmoji = '🏆';
+        badgeBg = 'bg-amber-400/20 border border-amber-400/50';
+        rankTitle = 'World Cup Champion!';
+        message = 'Outstanding! You mastered the geography, languages, and cultural identities of Argentina, Algeria, Austria, and Jordan.';
+      } else if (score >= 5) {
+        badgeEmoji = '🥈';
+        badgeBg = 'bg-emerald-500/20 border border-emerald-400/40';
+        rankTitle = 'Group Stage Star!';
+        message = 'Well played! You qualified from Group J with strong cultural and geographical knowledge.';
+      }
+
+      document.getElementById('result-badge-icon').textContent = badgeEmoji;
+      document.getElementById('result-badge-icon').className = `w-20 h-20 mx-auto rounded-3xl flex items-center justify-center text-4xl mb-4 shadow-lg ${badgeBg}`;
+      document.getElementById('result-rank-title').textContent = rankTitle;
+      document.getElementById('result-score-display').textContent = `You scored ${score} out of ${total} (${percentage}%)`;
+      document.getElementById('result-message').textContent = message;
+
+      // Render compact question-by-question review
+      const reviewList = document.getElementById('result-review-list');
+      reviewList.innerHTML = quizQuestions.map((q, idx) => {
+        const isCorrect = userAnswers[idx] === q.correctIndex;
+        return `
+          <div class="p-3 rounded-2xl border ${isCorrect ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-rose-500/10 border-rose-500/30'} flex items-center justify-between gap-3 text-xs sm:text-sm">
+            <span class="text-slate-200 font-medium line-clamp-1">${idx + 1}. ${q.question}</span>
+            <span class="shrink-0 font-bold ${isCorrect ? 'text-emerald-400' : 'text-rose-400'}">
+              ${isCorrect ? '✓ ' + q.options[q.correctIndex] : '✗ ' + q.options[q.correctIndex]}
+            </span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function resetQuiz() {
+      currentQuestionIndex = 0;
+      userAnswers = new Array(quizQuestions.length).fill(null);
+      score = 0;
+      updateHeaderScore();
+      document.getElementById('quiz-results-container').classList.add('hidden');
+      document.getElementById('quiz-active-container').classList.remove('hidden');
+      renderQuestion();
+    }
+
+    // =========================================================
+    // 7. MODAL & CLIPBOARD HELPERS
+    // =========================================================
+    function openQrModal() {
+      const modal = document.getElementById('qr-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeQrModal() {
+      const modal = document.getElementById('qr-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function copyCurrentUrl() {
+      const tempInput = document.createElement('input');
+      tempInput.value = window.location.href;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        const btn = document.getElementById('copy-url-btn');
+        btn.textContent = 'Link Copied!';
+        setTimeout(() => { btn.textContent = 'Copy Page Link'; }, 2000);
+      } catch (err) {
+        console.error('Copy failed', err);
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    // Initialize App on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCountries('all');
+    });
+  </script>
+</body>
+</html>
